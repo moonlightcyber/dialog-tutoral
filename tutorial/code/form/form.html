@@ -1,0 +1,196 @@
+!DOCTYPE html>
+<html>
+<head>
+<title>HTML &lt;dialog&gt; with Form : Demo</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css" />
+<style type="text/css">
+
+body {
+	margin: 0px;
+	font-family: Roboto, Tahoma;
+	font-size: 14px;
+}
+
+#form-dialog {
+	width: 500px;
+	border: 1px solid #555555;
+}
+
+#form-dialog::backdrop {
+	background: rgba(0,0,0,0.5);
+}
+
+/*#form-dialog form {
+
+}*/
+
+.form-element {
+	margin: 0 0 30px 0;
+}
+
+.form-element label {
+	display: block;
+	width: 100%;
+	margin: 0 0 5px 0;
+}
+
+.form-element input[type="text"] {
+	display: block;
+	width: 100%;
+	font-size: inherit;
+	font-family: inherit;
+	padding: 10px;
+	border: 1px solid #cccccc;
+	outline: none;
+	box-sizing: border-box;
+}
+
+.form-element select {
+	display: block;
+	width: 100%;
+	font-size: inherit;
+	font-family: inherit;
+	padding: 10px;
+	border: 1px solid #cccccc;
+	background-color: white;
+	outline: none;
+	box-sizing: border-box;
+}
+
+.form-element textarea {
+	display: block;
+	width: 100%;
+	font-size: inherit;
+	font-family: inherit;
+	padding: 10px;
+	border: 1px solid #cccccc;
+	outline: none;
+	resize: none;
+	height: 200px;
+	box-sizing: border-box;
+}
+
+#submit-button {
+	background-color: #336699;
+	color: white;
+	cursor: pointer;
+	padding: 10px 15px;
+	font-family: inherit;
+	font-size: inherit;
+	border: none;
+	font-weight: 700;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 30px 0 0;
+}
+
+#close-button {
+	background-color: white;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: inherit;
+	border: none;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#fill-form-button {
+	background-color: white;
+	color: #336699;
+	cursor: pointer;
+	padding: 10px;
+	font-family: inherit;
+	font-size: inherit;
+	border: 2px solid #336699;
+	font-weight: 700;
+	display: block;
+	width: 200px;
+	margin: 50px auto;
+}
+
+#form-status {
+	text-align: center;
+	font-weight: 700;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="main-container">
+	<dialog id="form-dialog">
+		<form>
+			<div class="form-element">
+				<label>Name</label>
+				<input type="text" name="name" />
+			</div>
+			<div class="form-element">
+				<label>Email</label>
+				<input type="text" name="email" />
+			</div>
+			<div class="form-element">
+				<label>Gender</label>
+				<select name="gender">
+					<option value="M">Male</option>
+					<option value="F">Female</option>
+				</select>
+			</div>
+			<div class="form-element">
+				<label>Address</label>
+				<textarea name="address"></textarea>
+			</div>
+			<button type="button" id="submit-button">Submit</button>
+			<button type="button" id="close-button">Close</button>
+		</form>
+	</dialog>
+	<button id="fill-form-button">Fill Form</button>
+	<div id="form-status"></div>
+</div>
+
+
+<script>
+
+var SHOW_FORM_BUTTON = document.querySelector("#fill-form-button"),
+	DIALOG = document.querySelector("#form-dialog"),
+	FORM_SUBMIT_BUTTON = document.querySelector("#submit-button"),
+	FORM_CANCEL_BUTTON = document.querySelector("#close-button"),
+	FORM_STATUS = document.querySelector("#form-status");
+
+// show dialog
+SHOW_FORM_BUTTON.addEventListener('click', function() {
+	DIALOG.showModal();
+});
+
+// form submission is cancelled
+FORM_CANCEL_BUTTON.addEventListener('click', function() {
+	DIALOG.close('CANCELLED');
+});
+
+// when form is submitted
+FORM_SUBMIT_BUTTON.addEventListener('click', function() {
+	// write code here for form submission with ajax
+
+	// when ajax form submission is successful
+	DIALOG.close('SUBMITTED');
+});
+
+// fired when dialog is closed
+DIALOG.addEventListener('close', function() {
+	if(DIALOG.returnValue === 'SUBMITTED')
+		FORM_STATUS.textContent = 'Form is submitted';
+	else if(DIALOG.returnValue === 'CANCELLED')
+		FORM_STATUS.textContent = 'Form submission is cancelled';
+});
+
+// cancel effect of ESC key
+DIALOG.addEventListener('cancel', function(e) {
+	e.preventDefault();
+});
+
+</script>
+
+</body>
+</html>
